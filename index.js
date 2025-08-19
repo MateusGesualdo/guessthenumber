@@ -22,6 +22,7 @@ function start() {
   correctNumber = Math.floor(101 * Math.random());
   numberOfAttempts = 0;
   gameIsOver = false;
+  return "Jogo iniciado"
 }
 
 start()
