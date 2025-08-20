@@ -1,15 +1,22 @@
-function createGame(saveScore, playerName) {
+export function createGame(saveScore, playerName) {
   let correctNumber, numberOfAttempts, gameIsOver;
 
-  function guess(number) {
+  async function guess(number) {
     if (gameIsOver) return "Reinicie para jogar novamente";
 
     numberOfAttempts++;
 
     if (number === correctNumber) {
       gameIsOver = true;
-      const high_score = saveScore(playerName, numberOfAttempts);
-      return `Parabéns, você acertou em ${numberOfAttempts} tentativas! Seu recorde é de ${high_score}.`;
+      let message = `Parabéns, você acertou em ${numberOfAttempts} tentativas!`;
+      let high_score;
+      try {
+        high_score = await saveScore(playerName, numberOfAttempts);
+        message += ` (Seu recorde é de ${high_score}).`;
+      } catch (error) {
+        message += ` (Falha ao salvar sua pontuação).`;
+      }
+      return message;
     } else if (number > correctNumber) {
       return "Muito alto, tente um número menor";
     } else if (number < correctNumber) {
